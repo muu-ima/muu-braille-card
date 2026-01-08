@@ -26,6 +26,7 @@ export function CardEditorMobileLayout(props: CardEditorMobileProps) {
     getBlocksFor,
     editableBlocks,
     addBlock,
+    addBrailleBlock,
     onChangeText,
     onCommitText,
     updateFont,
@@ -81,6 +82,7 @@ export function CardEditorMobileLayout(props: CardEditorMobileProps) {
           onChangeSide={actions.setSide}
           blocks={getBlocksFor(state.side)}
           onAddBlock={addBlock}
+          onAddBrailleBlock={addBrailleBlock}
           isPreview={state.isPreview}
           onChangeText={onChangeText}
           onCommitText={onCommitText}

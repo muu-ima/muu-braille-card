@@ -1,1 +1,1 @@
-export type TabKey = "text" | "font" | "design" | "export";
+export type TabKey = "text" | "braille" | "font" | "design" | "export";

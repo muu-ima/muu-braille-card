@@ -50,6 +50,7 @@ export default function CardEditor() {
   const {
     blocks: editableBlocks,
     addBlock,
+    addBrailleBlock,
     previewText,
     commitText,
     updateFont,
@@ -245,6 +246,7 @@ export default function CardEditor() {
     getBlocksFor,
     editableBlocks,
     addBlock,
+    addBrailleBlock,
     onChangeText,
     onCommitText,
     updateFont,
@@ -305,6 +307,7 @@ export default function CardEditor() {
           getBlocksFor={getBlocksFor}
           editableBlocks={editableBlocks}
           addBlock={addBlock}
+          addBrailleBlock={addBrailleBlock}
           onChangeText={onChangeText}
           onCommitText={onCommitText}
           updateFont={updateFont}

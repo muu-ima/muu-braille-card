@@ -21,6 +21,7 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
     getBlocksFor,
     editableBlocks,
     addBlock,
+    addBrailleBlock, 
     onChangeText,
     onCommitText,
     updateFont,
@@ -45,6 +46,8 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
   } = props;
 
   const isPanelOpen = state.activeTab !== null;
+
+
 
   return (
     <div className="flex w-full h-[calc(100dvh-56px)]">
@@ -74,6 +77,7 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
             onChangeSide={actions.setSide}
             blocks={getBlocksFor(state.side)}
             onAddBlock={addBlock}
+            onAddBrailleBlock={addBrailleBlock}  
             onChangeText={onChangeText}
             onCommitText={onCommitText}
             onBumpFontSize={bumpFontSize}

@@ -11,6 +11,7 @@ export type Block = {
   fontSize: number;
   fontWeight: "normal" | "bold";
   fontKey: FontKey; // 実際の定義に合わせて
+  isBraille?: boolean;
 };
 
 // ✅ カードの初期状態をここに集約
@@ -46,5 +47,6 @@ export const INITIAL_BLOCKS: Block[] = [
     fontSize: 18,
     fontWeight: "normal",
     fontKey: "sans",
+    isBraille: true, // ← 点字用
   },
 ];

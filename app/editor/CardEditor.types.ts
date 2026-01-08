@@ -59,6 +59,7 @@ export type CardEditorMobileProps = {
   getBlocksFor: (side: Side) => Block[];
   editableBlocks: Block[];
   addBlock: () => void;
+  addBrailleBlock: () => void;
   onChangeText: (id: string, value: string) => void;
   onCommitText: (id: string, value: string) => void;
   updateFont: (id: string, fontKey: FontKey) => void;
@@ -110,6 +111,7 @@ export type CardEditorDesktopProps = {
   getBlocksFor: (side: Side) => Block[];
   editableBlocks: Block[];
   addBlock: () => void;
+  addBrailleBlock: () => void;
   onChangeText: (id: string, value: string) => void;
   onCommitText: (id: string, value: string) => void;
   updateFont: (id: string, fontKey: FontKey) => void;
