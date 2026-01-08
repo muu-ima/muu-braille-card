@@ -88,112 +88,119 @@ export default function EditorCanvas({
 
   return (
     <section className="flex flex-col items-center gap-3">
-      <div
-        className="relative mx-auto"
-        style={{
-          width: CARD_BASE_W * scale,
-          height: CARD_BASE_H * scale,
-        }}
-      >
-        {/* ✅ scaleする箱（ここが Card + textarea の共通親） */}
+      <div className="w-full flex justify-center">
         <div
-          ref={cardRef} // ✅ ここに付けるのが重要
-          className={[
-            "relative",
-            isPreview ? "overflow-hidden" : "overflow-visible",
-          ].join(" ")}
+          className="relative mx-auto"
           style={{
-            width: CARD_BASE_W,
-            height: CARD_BASE_H,
-            transform: `scale(${scale})`,
-            transformOrigin: "top left",
+            width: CARD_BASE_W * scale,
+            height: CARD_BASE_H * scale,
           }}
         >
-          <CardSurface
-            blocks={blocks}
-            design={design}
-            w={CARD_BASE_W}
-            h={CARD_BASE_H}
-            interactive={!isPreview}
-            onSurfacePointerDown={() => onSurfacePointerDown?.()}
-            onBlockPointerDown={(e, id) => onPointerDown?.(e, id, { scale })}
-            onBlockDoubleClick={isPreview ? undefined : onBlockDoubleClick}
-            activeBlockId={editingBlockId ? undefined : activeBlockId}
-            editingBlockId={editingBlockId} // ✅ 二重文字防止
-            blockRefs={blockRefs}
-            className={isPreview ? "shadow-lg" : ""}
-          />
+          {/* ✅ scaleする箱（ここが Card + textarea の共通親） */}
+          <div
+            ref={cardRef} // ✅ ここに付けるのが重要
+            className={[
+              "relative",
+              isPreview ? "overflow-hidden" : "overflow-visible",
+            ].join(" ")}
+            style={{
+              width: CARD_BASE_W,
+              height: CARD_BASE_H,
+              transform: `scale(${scale})`,
+              transformOrigin: "top left",
+            }}
+          >
+            <CardSurface
+              blocks={blocks}
+              design={design}
+              w={CARD_BASE_W}
+              h={CARD_BASE_H}
+              interactive={!isPreview}
+              onSurfacePointerDown={() => onSurfacePointerDown?.()}
+              onBlockPointerDown={(e, id) => onPointerDown?.(e, id, { scale })}
+              onBlockDoubleClick={isPreview ? undefined : onBlockDoubleClick}
+              activeBlockId={editingBlockId ? undefined : activeBlockId}
+              editingBlockId={editingBlockId} // ✅ 二重文字防止
+              blockRefs={blockRefs}
+              className={isPreview ? "shadow-lg" : ""}
+            />
 
-          {/* ✅ Inline editor overlay（CardSurface と同じ scale 階層） */}
-          {!isPreview &&
-            editingBlockId &&
-            (() => {
-              const b = blocks.find((x) => x.id === editingBlockId);
-              if (!b || b.type !== "text") return null;
+            {/* ✅ Inline editor overlay（CardSurface と同じ scale 階層） */}
+            {!isPreview &&
+              editingBlockId &&
+              (() => {
+                const b = blocks.find((x) => x.id === editingBlockId);
+                if (!b || b.type !== "text") return null;
 
-              function fontFamilyFromKey(fontKey: string) {
-                switch (fontKey) {
-                  case "serif":
-                    return `"Noto Serif JP", serif`;
-                  case "maru":
-                    return `"Zen Maru Gothic", sans-serif`;
-                  default:
-                    return `"Noto Sans JP", system-ui, sans-serif`;
+                function fontFamilyFromKey(fontKey: string) {
+                  switch (fontKey) {
+                    case "serif":
+                      return `"Noto Serif JP", serif`;
+                    case "maru":
+                      return `"Zen Maru Gothic", sans-serif`;
+                    default:
+                      return `"Noto Sans JP", system-ui, sans-serif`;
+                  }
                 }
-              }
 
-              return (
-                <textarea
-                  key={b.id}
-                  autoFocus
-                  value={editingText ?? ""}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onChange={(e) => onChangeEditingText?.(e.currentTarget.value)}
-                  onBlur={() => {
-                    onCommitText?.(b.id, editingText ?? "");
-                    onStopEditing?.();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
+                return (
+                  <textarea
+                    key={b.id}
+                    autoFocus
+                    value={editingText ?? ""}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onChange={(e) =>
+                      onChangeEditingText?.(e.currentTarget.value)
+                    }
+                    onBlur={() => {
                       onCommitText?.(b.id, editingText ?? "");
                       onStopEditing?.();
-                    }
-                    if (e.key === "Escape") {
-                      e.preventDefault();
-                      onStopEditing?.();
-                    }
-                  }}
-                  style={{
-                    position: "absolute",
-                    left: b.x,
-                    top: b.y,
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        onCommitText?.(b.id, editingText ?? "");
+                        onStopEditing?.();
+                      }
+                      if (e.key === "Escape") {
+                        e.preventDefault();
+                        onStopEditing?.();
+                      }
+                    }}
+                    style={{
+                      position: "absolute",
+                      left: b.x,
+                      top: b.y,
 
-                    fontSize: `${b.fontSize}px`,
-                    fontWeight: b.fontWeight,
-                    fontFamily: fontFamilyFromKey(b.fontKey),
+                      fontSize: `${b.fontSize}px`,
+                      fontWeight: b.fontWeight,
+                      fontFamily: fontFamilyFromKey(b.fontKey),
 
-                    padding: "2px 6px",
-                    lineHeight: 1.2,
+                      padding: "2px 6px",
+                      lineHeight: 1.2,
 
-                    background: "transparent",
-                    borderRadius: 6,
-                    border: "1px solid rgba(236, 72, 153, 0.45)",
+                      background: "transparent",
+                      borderRadius: 6,
+                      border: "1px solid rgba(236, 72, 153, 0.45)",
 
-                    outline: "none",
-                    resize: "none",
-                    zIndex: 50,
-                  }}
-                />
-              );
-            })()}
+                      outline: "none",
+                      resize: "none",
+                      zIndex: 50,
+                    }}
+                  />
+                );
+              })()}
+          </div>
+
+          {showGuides && (
+            <PrintGuides
+              scale={scale}
+              cardW={CARD_BASE_W}
+              cardH={CARD_BASE_H}
+            />
+          )}
         </div>
-
-        {showGuides && (
-          <PrintGuides scale={scale} cardW={CARD_BASE_W} cardH={CARD_BASE_H} />
-        )}
       </div>
-
       {!isPreview && (
         <p className="w-full max-w-[480px] text-xs text-zinc-500">
           ※プレビュー時はドラッグできません。編集モードで配置を調整してください。
