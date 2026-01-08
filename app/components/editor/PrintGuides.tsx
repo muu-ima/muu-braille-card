@@ -1,3 +1,4 @@
+// app/components/editor/PrintGuides.tsx
 "use client";
 
 import React from "react";

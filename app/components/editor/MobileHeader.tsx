@@ -1,3 +1,4 @@
+// app/components/editor/MobileHeader.tsx
 "use client";
 
 import React from "react";

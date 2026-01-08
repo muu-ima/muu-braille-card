@@ -47,9 +47,6 @@ export default function BraillePanel({
         <div className="space-y-3">
           {brailleBlocks.length === 0 && (
             <>
-              <p className="text-sm text-zinc-500">
-                点字テキスト用のブロックがまだありません。
-              </p>
               <button
                 type="button"
                 onClick={onAddBrailleBlock}
