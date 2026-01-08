@@ -11,6 +11,7 @@ type Props = {
   onCommitText?: (id: string, value: string) => void;
   canEdit?: boolean; // あってもいい（なくてもOK）
   onBumpFontSize?: (id: string, delta: FontSizeDelta) => void;
+  onChangeWidth?: (id: string, width: number) => void;
 };
 
 export default function TextTab({

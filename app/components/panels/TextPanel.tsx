@@ -57,6 +57,7 @@ export default function TextPanel({
   onChangeText,
   onCommitText,
   onBumpFontSize,
+  onChangeWidth,
 }: {
   side: Side;
   onChangeSide: (s: Side) => void;
@@ -66,9 +67,11 @@ export default function TextPanel({
   onChangeText: (id: string, value: string) => void;
   onCommitText: (id: string, value: string) => void;
   onBumpFontSize?: (id: string, delta: FontSizeDelta) => void;
+  onChangeWidth?: (id: string, width: number) => void;
 }) {
   // ✅ 通常テキストだけを対象にする（点字ブロックは除外）
   const normalBlocks = blocks.filter((b) => !b.isBraille);
+  const first = normalBlocks[0];
 
   return (
     <div className="space-y-4">
@@ -87,7 +90,25 @@ export default function TextPanel({
           onChangeText={onChangeText}
           onCommitText={onCommitText}
           onBumpFontSize={onBumpFontSize}
+          onChangeWidth={onChangeWidth}
         />
+
+        {first && onChangeWidth && (
+          <div className="mt-4 space-y-1">
+            <div className="flex items-center justify-between text-xs text-zinc-500">
+              <span>テキスト幅</span>
+              <span>{first.width ?? 200}px</span>
+            </div>
+            <input
+              type="range"
+              min={80}
+              max={400}
+              value={first.width ?? 200}
+              onChange={(e) => onChangeWidth(first.id, Number(e.target.value))}
+              className="w-full"
+            />
+          </div>
+        )}
       </PanelSection>
     </div>
   );

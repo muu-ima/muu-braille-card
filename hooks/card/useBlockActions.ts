@@ -29,6 +29,11 @@ export function useBlockActions(history: HistoryApi) {
     set((prev) => prev.map((b) => (b.id === id ? { ...b, text } : b)));
   };
 
+  const setBlockWidth = (id: string, width: number) => {
+    const w = clamp(Math.round(width), 40, 480);
+    set((prev) => prev.map((b) => (b.id === id ? { ...b, width: w } : b)));
+  };
+
   // 確定（履歴）
   const commitText = (id: string, text: string) => {
     commit((prev) => {
@@ -88,5 +93,6 @@ export function useBlockActions(history: HistoryApi) {
     addBlock,
     updateFontSize,
     bumpFontSize,
+    setBlockWidth,
   };
 }
