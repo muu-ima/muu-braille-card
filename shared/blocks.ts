@@ -1,12 +1,50 @@
 import type { FontKey } from "@/shared/fonts";
 
+// shared/blocks.ts
+
 export type Block = {
-  type: "text"; 
   id: string;
+  type: "text"; // いずれ "braille" も足すかも
   text: string;
   x: number;
   y: number;
   fontSize: number;
   fontWeight: "normal" | "bold";
-  fontKey: FontKey;
+  fontKey: FontKey; // 実際の定義に合わせて
 };
+
+// ✅ カードの初期状態をここに集約
+export const INITIAL_BLOCKS: Block[] = [
+  {
+    id: "name",
+    type: "text",
+    text: "山田 太郎",
+    x: 100,
+    y: 120,
+    fontSize: 24,
+    fontWeight: "bold",
+    fontKey: "serif",
+  },
+  {
+    id: "title",
+    type: "text",
+    text: "デザイナー / Designer",
+    x: 100,
+    y: 80,
+    fontSize: 18,
+    fontWeight: "normal",
+    fontKey: "sans",
+  },
+
+  // 👇 点字用に 1 個ブロックを予約（あとで位置・サイズは調整）
+  {
+    id: "braille-main",
+    type: "text",
+    text: "⠃⠗⠁⠊⠇⠇⠑", // ダミー。起動後はパネルから上書きされる想定
+    x: 100,
+    y: 200,
+    fontSize: 18,
+    fontWeight: "normal",
+    fontKey: "sans",
+  },
+];
