@@ -8,6 +8,7 @@ import {
   TextCursor,
   Image as ImageIcon,
   Download,
+  Grid3X3,
 } from "lucide-react";
 
 function MobileBottomBarItem({
@@ -30,14 +31,14 @@ function MobileBottomBarItem({
       type="button"
       onClick={() => onChangeTab(tab)}
       className={[
-        "flex flex-1 flex-col items-center justify-center gap-1 py-2",
+        "flex shrink-0 flex-col items-center justify-center gap-1 px-4 py-2 min-w-20",
         active ? "text-blue-700" : "text-zinc-600",
       ].join(" ")}
     >
       {/* ここが “アイコン枠” */}
       <span
         className={[
-          "flex h-6 w-6 items-center justify-center rounded-md",
+          "flex h-7 w-7 items-center justify-center rounded-md",
           active ? "bg-blue-600/15" : "bg-zinc-900/5",
         ].join(" ")}
       >
@@ -59,35 +60,44 @@ export default function MobileBottomBar({
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 xl:hidden">
       <div className="border-t bg-white/90 backdrop-blur pb-[env(safe-area-inset-bottom)]">
-        <div className="mx-auto flex h-14 max-w-[520px]">
-          <MobileBottomBarItem
-            tab="text"
-            label="テキスト"
-            Icon={Type}
-            activeTab={activeTab}
-            onChangeTab={onChangeTab}
-          />
-          <MobileBottomBarItem
-            tab="font"
-            label="フォント"
-            Icon={TextCursor}
-            activeTab={activeTab}
-            onChangeTab={onChangeTab}
-          />
-          <MobileBottomBarItem
-            tab="design"
-            label="デザイン"
-            Icon={ImageIcon}
-            activeTab={activeTab}
-            onChangeTab={onChangeTab}
-          />
-          <MobileBottomBarItem
-            tab="export"
-            label="書き出し"
-            Icon={Download}
-            activeTab={activeTab}
-            onChangeTab={onChangeTab}
-          />
+        <div className="mx-auto max-w-[520px] overflow-x-auto scrollbar-none">
+          <div className="flex h-14 flex-nowrap gap-1">
+            <MobileBottomBarItem
+              tab="text"
+              label="テキスト"
+              Icon={Type}
+              activeTab={activeTab}
+              onChangeTab={onChangeTab}
+            />
+            <MobileBottomBarItem
+              tab="braille"
+              label="点字"
+              Icon={Grid3X3}
+              activeTab={activeTab}
+              onChangeTab={onChangeTab}
+            />
+            <MobileBottomBarItem
+              tab="font"
+              label="フォント"
+              Icon={TextCursor}
+              activeTab={activeTab}
+              onChangeTab={onChangeTab}
+            />
+            <MobileBottomBarItem
+              tab="design"
+              label="デザイン"
+              Icon={ImageIcon}
+              activeTab={activeTab}
+              onChangeTab={onChangeTab}
+            />
+            <MobileBottomBarItem
+              tab="export"
+              label="書き出し"
+              Icon={Download}
+              activeTab={activeTab}
+              onChangeTab={onChangeTab}
+            />
+          </div>
         </div>
       </div>
     </div>
