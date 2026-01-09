@@ -15,6 +15,7 @@ const INITIAL_BLOCKS: Block[] = [
   {
     id: "name",
     type: "text",
+    side: "front",
     text: "山田 太郎",
     x: 100,
     y: 120,
@@ -25,6 +26,7 @@ const INITIAL_BLOCKS: Block[] = [
   {
     id: "title",
     type: "text",
+    side: "front",
     text: "デザイナー / Designer",
     x: 100,
     y: 80,
