@@ -136,6 +136,7 @@ export default function ToolPanel({
             onCommitText={onCommitText}
             onBumpFontSize={onBumpFontSize}
             onChangeWidth={onChangeWidth}
+            activeBlockId={activeBlockId}
           />
         )}
         {activeTab === "braille" && (

@@ -103,6 +103,7 @@ export function useBlockActions(history: HistoryApi) {
         fontSize: 16,
         fontWeight: "normal",
         fontKey: "sans",
+        side: "front",
       },
     ]);
   };
