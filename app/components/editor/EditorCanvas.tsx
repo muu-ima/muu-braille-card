@@ -158,11 +158,6 @@ export default function EditorCanvas({
                       onStopEditing?.();
                     }}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        onCommitText?.(b.id, editingText ?? "");
-                        onStopEditing?.();
-                      }
                       if (e.key === "Escape") {
                         e.preventDefault();
                         onStopEditing?.();
