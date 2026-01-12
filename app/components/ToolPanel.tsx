@@ -44,6 +44,7 @@ type Props = {
     options?: { quality?: number; pixelRatio?: number; fontFamily?: string }
   ) => void;
   onChangeWidth?: (id: string, width: number) => void;
+    onDeleteBlock?: (id: string) => void;
 };
 
 export default function ToolPanel({
@@ -66,6 +67,7 @@ export default function ToolPanel({
   onDownload,
   variant = "desktop",
   onChangeWidth,
+  onDeleteBlock,
 }: Props) {
   // ✅ open と activeTab を一致させる（事故防止）
   if (!open || !activeTab) return null;
@@ -137,6 +139,7 @@ export default function ToolPanel({
             onBumpFontSize={onBumpFontSize}
             onChangeWidth={onChangeWidth}
             activeBlockId={activeBlockId}
+            onDeleteBlock={onDeleteBlock}
           />
         )}
         {activeTab === "braille" && (

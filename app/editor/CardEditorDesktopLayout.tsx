@@ -49,6 +49,11 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
 
   const blocksForSide = getBlocksFor(state.side);
 
+  // 削除ハンドラ
+  const handleDeleteBlock = (id: string) => {
+    actions.removeBlock(id); // ← 実際に持ってる削除アクション名に合わせて
+  };
+
   return (
     <div className="flex w-full h-[calc(100dvh-56px)]">
       {/* 左：縦ツール */}
@@ -90,6 +95,7 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
               if (!exportRef.current) return;
               downloadImage(format, exportRef.current);
             }}
+            onDeleteBlock={handleDeleteBlock}
           />
         </aside>
       )}

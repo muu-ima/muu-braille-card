@@ -34,6 +34,7 @@ export type EditorActionsForLayout = {
   onChangeAlign: (align: Align) => void;
   setShowGuides: (updater: (v: boolean) => boolean) => void;
   onChangeWidth?: (id: string, width: number) => void;
+  removeBlock: (id: string) => void;
 };
 
 export type SheetSnap = "collapsed" | "half" | "full";
@@ -67,7 +68,7 @@ export type CardEditorMobileProps = {
   bumpFontSize: (id: string, delta: FontSizeDelta) => void;
   design: DesignKey;
   setDesign: (d: DesignKey) => void;
-   onChangeWidth?: (id: string, width: number) => void;
+  onChangeWidth?: (id: string, width: number) => void;
 
   // ---- export
   exportRef: RefObject<HTMLDivElement | null>;

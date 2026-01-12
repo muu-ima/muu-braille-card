@@ -68,6 +68,7 @@ export default function CardEditor() {
     editingText,
     setEditingText,
     setBlockWidth,
+    removeBlock,
   } = useCardBlocks();
 
   const editor = useCardEditorState({
@@ -226,6 +227,7 @@ export default function CardEditor() {
     onToggleBold: actions.onToggleBold,
     onChangeAlign: actions.onChangeAlign,
     setShowGuides: actions.setShowGuides,
+    removeBlock,
   };
 
   // ③ Mobile レイアウトに渡す全部入り props
@@ -304,7 +306,7 @@ export default function CardEditor() {
       <div className="hidden md:block">
         <CardEditorDesktopLayout
           state={state}
-          actions={actions}
+          actions={layoutActions}
           openTab={openTab}
           canvasAreaRef={canvasAreaRef}
           centerWrapRef={centerWrapRef}

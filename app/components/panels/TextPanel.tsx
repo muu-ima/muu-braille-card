@@ -3,10 +3,26 @@
 
 import type { Block } from "@/shared/blocks";
 import type { FontSizeDelta } from "@/shared/fonts";
-import TextTab from "@/app/components/tabs/TextTab";
 import PanelSection from "@/app/components/panels/PanelSection";
+import { Trash2 } from "lucide-react";
 
 type Side = "front" | "back";
+
+type TextPanelProps = {
+  side: Side;
+  onChangeSide: (s: Side) => void;
+  blocks: Block[];
+  onAddBlock: () => void;
+  isPreview: boolean;
+  onChangeText: (id: string, value: string) => void;
+  onCommitText: (id: string, value: string) => void;
+  onBumpFontSize?: (id: string, delta: FontSizeDelta) => void;
+  onChangeWidth?: (id: string, width: number) => void;
+  activeBlockId?: string | null;
+
+  // ✅ 追加：削除用
+  onDeleteBlock?: (id: string) => void;
+};
 
 function SideToggle({
   side,
@@ -48,86 +64,164 @@ function SideToggle({
   );
 }
 
-export default function TextPanel({
-  side,
-  onChangeSide,
-  blocks,
-  onAddBlock,
-  isPreview,
-  onChangeText,
-  onCommitText,
-  onBumpFontSize,
-  onChangeWidth,
-  activeBlockId,
-}: {
-  side: Side;
-  onChangeSide: (s: Side) => void;
-  blocks: Block[];
-  onAddBlock: () => void;
-  isPreview: boolean;
-  onChangeText: (id: string, value: string) => void;
-  onCommitText: (id: string, value: string) => void;
-  onBumpFontSize?: (id: string, delta: FontSizeDelta) => void;
-  onChangeWidth?: (id: string, width: number) => void;
-  activeBlockId?: string | null;
-}) {
-  // ✅ この面＆通常テキストだけを対象にする（点字ブロックは除外）
-  const normalBlocks = blocks.filter(
-  (b) => !b.isBraille && (b.side ? b.side === side : true)
-);
+export default function TextPanel(props: TextPanelProps) {
+  const {
+    side,
+    onChangeSide,
+    blocks,
+    onAddBlock,
+    onBumpFontSize,
+    onChangeWidth,
+    activeBlockId,
+    onDeleteBlock, // ✅ ここで受け取る
+  } = props;
 
-  // ✅ 選択中ブロック（いなければ null）
+  // ✅ この面＆通常テキストだけ（点字ブロック除外）
+  const normalBlocks = blocks.filter(
+    (b) => !b.isBraille && (b.side ? b.side === side : true)
+  );
+
   const activeBlock =
     activeBlockId != null
       ? normalBlocks.find((b) => b.id === activeBlockId) ?? null
       : null;
 
-  // ✅ スライダーの対象ブロック
-  // 1. 選択中がいればそれ
-  // 2. いなければその面の先頭
-
   const target = activeBlock ?? normalBlocks[0] ?? null;
   const widthValue = target?.width ?? 200;
+  const fontSizeValue = target?.fontSize ?? 16;
 
   return (
     <div className="space-y-4">
+      {/* 表/裏の切り替え */}
       <PanelSection title="編集する面" desc="表面 / 裏面 を切り替えます。">
         <SideToggle side={side} onChangeSide={onChangeSide} />
       </PanelSection>
 
+      {/* テキスト一覧＋追加 */}
       <PanelSection
-        title="テキスト編集"
-        desc="内容を入力してプレビューで確認できます。"
+        title="テキスト"
+        desc="内容の編集はキャンバス上で行います。ここではブロックの追加と削除、スタイルを調整します。"
       >
-        <TextTab
-          blocks={normalBlocks}
-          isPreview={isPreview}
-          onAddBlock={onAddBlock}
-          onChangeText={onChangeText}
-          onCommitText={onCommitText}
-          onBumpFontSize={onBumpFontSize}
-          onChangeWidth={onChangeWidth}
-        />
+        <div className="space-y-3">
+          <button
+            type="button"
+            onClick={onAddBlock}
+            className="w-full rounded-lg border border-zinc-300 py-1.5 text-sm hover:bg-zinc-50"
+          >
+            ＋ テキストを追加
+          </button>
 
-        {target && onChangeWidth && (
-          <div className="mt-4 space-y-1">
-            <div className="flex items-center justify-between text-xs text-zinc-500">
-              <span>テキスト幅</span>
-              <span>{Math.round(widthValue)}px</span>
-            </div>
-            <input
-              type="range"
-              min={80}
-              max={400}
-              value={widthValue}
-              onChange={(e) =>
-                onChangeWidth(target.id, Number(e.target.value))
-              }
-              className="w-full"
-            />
+          <div className="space-y-2 max-h-[260px] overflow-auto pr-1">
+            {normalBlocks.map((b, index) => {
+              const isActive = b.id === activeBlockId;
+              return (
+                <div
+                  key={b.id}
+                  className={[
+                    "rounded-lg border px-3 py-2 text-xs relative",
+                    isActive
+                      ? "border-pink-400 bg-pink-50/60"
+                      : "border-zinc-200 bg-white",
+                  ].join(" ")}
+                >
+                  {/* ✅ 上部：タイトル＋フォントサイズ＋削除ボタン */}
+                  <div className="flex items-center justify-between text-[11px] text-zinc-500">
+                    <span>{`テキスト${index + 1}`}</span>
+                    <div className="flex items-center gap-1">
+                      <span>{b.fontSize}px</span>
+                      {onDeleteBlock && (
+                        <button
+                          type="button"
+                          aria-label="テキストを削除"
+                          onClick={() => {
+                            const ok =
+                              window.confirm(
+                                "このテキストブロックを削除しますか？"
+                              );
+                            if (!ok) return;
+                            onDeleteBlock(b.id);
+                          }}
+                          className="rounded-full p-1 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* プレビュー */}
+                  <p className="mt-1 text-sm line-clamp-2">
+                    {b.text || "（未入力）"}
+                  </p>
+                  <p className="mt-1 text-[11px] text-zinc-400">
+                    キャンバス上でダブルクリックして内容を編集できます。
+                  </p>
+                </div>
+              );
+            })}
+
+            {normalBlocks.length === 0 && (
+              <p className="text-xs text-zinc-400">
+                まだテキストブロックがありません。「＋
+                テキストを追加」から作成してください。
+              </p>
+            )}
           </div>
-        )}
+        </div>
       </PanelSection>
+
+      {/* スタイル調整（フォントサイズ・幅） */}
+      {target && (onBumpFontSize || onChangeWidth) && (
+        <PanelSection
+          title="選択中テキストのスタイル"
+          desc="フォントサイズとテキスト幅を調整します。"
+        >
+          <div className="space-y-3">
+            {onBumpFontSize && (
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-xs text-zinc-500">
+                  <span>フォントサイズ</span>
+                  <span>{fontSizeValue}px</span>
+                </div>
+                <input
+                  type="range"
+                  min={10}
+                  max={36}
+                  step={1}
+                  value={fontSizeValue}
+                  onChange={(e) => {
+                    const next = Number(e.target.value);
+                    const delta = next - fontSizeValue;
+                    if (delta !== 0) {
+                      onBumpFontSize(target.id, delta as FontSizeDelta);
+                    }
+                  }}
+                  className="w-full"
+                />
+              </div>
+            )}
+
+            {onChangeWidth && (
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-xs text-zinc-500">
+                  <span>テキスト幅</span>
+                  <span>{Math.round(widthValue)}px</span>
+                </div>
+                <input
+                  type="range"
+                  min={80}
+                  max={400}
+                  value={widthValue}
+                  onChange={(e) =>
+                    onChangeWidth(target.id, Number(e.target.value))
+                  }
+                  className="w-full"
+                />
+              </div>
+            )}
+          </div>
+        </PanelSection>
+      )}
     </div>
   );
 }

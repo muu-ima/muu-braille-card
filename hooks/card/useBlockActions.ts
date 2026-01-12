@@ -5,7 +5,6 @@ import type { FontKey, FontSizeDelta } from "@/shared/fonts";
 import type { Block } from "@/shared/blocks";
 import { createRandomId } from "@/shared/randomId";
 
-
 type TextStylePatch = Partial<{
   fontSize: number;
   fontWeight: "normal" | "bold";
@@ -29,7 +28,6 @@ export function useBlockActions(history: HistoryApi) {
   const previewText = (id: string, text: string) => {
     set((prev) => prev.map((b) => (b.id === id ? { ...b, text } : b)));
   };
-
 
   /**
    * テキスト幅スライダー用
@@ -83,12 +81,11 @@ export function useBlockActions(history: HistoryApi) {
   const updateFont = (id: string, fontKey: FontKey) => {
     commit((prev) => prev.map((b) => (b.id === id ? { ...b, fontKey } : b)));
   };
-  
+
   // テキストスタイル（軽い：ドラッグやトグル中に追従したいなら set）
   const updateTextStyle = (id: string, patch: TextStylePatch) => {
     set((prev) => prev.map((b) => (b.id === id ? { ...b, ...patch } : b)));
   };
-
 
   // 新規追加（履歴）
   const addBlock = () => {
@@ -123,6 +120,11 @@ export function useBlockActions(history: HistoryApi) {
     updateFontSize(id, cur + delta);
   };
 
+  // ✅ 追加：テキストブロック削除（履歴つき）
+  const removeBlock = (id: string) => {
+    commit((prev) => prev.filter((b) => b.id !== id));
+  };
+
   return {
     previewText,
     commitText,
@@ -132,5 +134,6 @@ export function useBlockActions(history: HistoryApi) {
     updateFontSize,
     bumpFontSize,
     setBlockWidth,
- };
+    removeBlock,
+  };
 }
