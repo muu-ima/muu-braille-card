@@ -70,7 +70,16 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
 
       {/* 左：詳細パネル */}
       {isPanelOpen && (
-        <aside className="w-[416px] shrink-0 border-r bg-white">
+        <aside className={clsx(
+          "shrink-0 border-r bg-white h-full min-h-0 transition-[width] duration-200",
+          //  768~1023px (タブレット) :ちょい細め
+          "md:w-[280px]",
+          // 1024~1279px:普通のPC幅
+          "lg:w-[320px]",
+          // 1280px~:余裕があるときだけ 416px まで広げる
+          "xl:w-[416px]"
+        )}
+        >
           <ToolPanel
             variant="desktop"
             open={true}

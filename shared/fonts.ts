@@ -14,12 +14,24 @@ export const FONT_DEFINITIONS = {
     css: "var(--font-noto-serif-jp), serif",
   },
   script1: {
-    label: "筆記体（Parisienne）",
+    label: "筆記体（Parisienne / 英字のみ）",
     css: "var(--font-parisienne), cursive",
   },
   script2: {
-    label: "筆記体（Dancing Script）",
+    label: "筆記体（Dancing Script / 英字のみ）",
     css: "var(--font-dancing-script), cursive",
+  },
+  pop1: {
+    label: "ポップ (Lemon / 英字のみ)",
+    css: "var(--font-lemon), system-ui, sans-serif",
+  },
+  pop2: {
+    label: "ポップ (Chicle / 英字のみ)",
+    css: "var(--font-chicle), system-ui, sans-serif",
+  },
+   pop3: {
+    label: "ポップ (Potta_One / 日本語)",
+    css: "var(--font-potta_one), system-ui, sans-serif",
   },
 } as const;
 
