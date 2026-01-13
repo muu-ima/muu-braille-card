@@ -44,7 +44,7 @@ type Props = {
     options?: { quality?: number; pixelRatio?: number; fontFamily?: string }
   ) => void;
   onChangeWidth?: (id: string, width: number) => void;
-    onDeleteBlock?: (id: string) => void;
+  onDeleteBlock?: (id: string) => void;
 };
 
 export default function ToolPanel({
@@ -97,7 +97,13 @@ export default function ToolPanel({
       ].join(" ")}
     >
       {/* ✅ 見出し：BottomSheetでも上に残る */}
-      <div className="sticky top-0 z-10 -mx-4 mb-3 bg-white/90 px-4 lg:py-3 backdrop-blur xl:mx-0 xl:mb-0 xl:bg-transparent xl:px-3 xl:py-2">
+      <div
+        className={[
+          "sticky top-0 z-10 mb-3 bg-white/90 backdrop-blur",
+          "px-3 py-2", // ← 横は一段階だけ絞る
+          "xl:mb-0 xl:bg-transparent", // xl だけ背景・余白切り替え
+        ].join(" ")}
+      >
         {/* ✅ showHeader のときだけ描画する */}
         {showHeader && (
           <div
