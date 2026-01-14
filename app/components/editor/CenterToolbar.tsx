@@ -176,9 +176,9 @@ export default function CenterToolbar({
         {/* ③ ツールバー本体（見た目はここ1回） */}
         <div
           className={[
-            "flex h-11 items-center gap-2 rounded-2xl border bg-white/85 px-3 py-2 backdrop-blur",
-            "shadow-[0_1px_0_rgba(0,0,0,0.06),0_10px_22px_rgba(0,0,0,0.10)]",
-            "min-w-[720px] justify-between whitespace-nowrap",
+            "flex items-center gap-1 rounded-lg bg-white/85 px-2 py-2 backdrop-blur",
+            "shadow-[0_1px_2px_rgba(0,0,0,0.08),0_4px_12px_rgba(0,0,0,0.12)]",
+            "justify-between whitespace-nowrap",
             compact ? "max-w-[640px]" : "max-w-[820px]",
             value === null ? "opacity-70" : "",
           ].join(" ")}
@@ -193,7 +193,9 @@ export default function CenterToolbar({
                 className="max-w-[220px]"
                 title="フォントを開く"
               >
-                <span className="max-w-[180px] truncate">{value.fontKey}</span>
+                <span className="max-w-[200px] truncate font-medium text-sm">
+                  {value.fontKey}
+                </span>
                 <ChevronDown className="h-4 w-4 text-zinc-400" />
               </GhostButton>
 
@@ -321,7 +323,7 @@ function GhostButton({
       disabled={disabled}
       onClick={() => !disabled && onClick()}
       className={[
-        "inline-flex h-9 items-center gap-2 rounded-xl px-2.5 text-sm",
+        "inline-flex h-8 items-center gap-1 rounded-full px-2 text-sm  font-medium leading-none",
         "select-none",
         "hover:bg-black/5 active:bg-black/10",
         pressed ? "bg-pink-50 ring-1 ring-inset ring-pink-200" : "",
@@ -346,7 +348,7 @@ function Segmented<T extends string>({
   disabled?: boolean;
 }) {
   return (
-    <div className="inline-flex overflow-hidden rounded-xl border bg-white">
+    <div className="inline-flex h-6 items-center rounded-full bg-white border px-0.5">
       {options.map((opt) => {
         const active = opt.value === value;
         return (
@@ -357,10 +359,10 @@ function Segmented<T extends string>({
             aria-pressed={active}
             onClick={() => !disabled && onChange(opt.value)}
             className={[
-              "h-9 px-3 text-sm",
+              "inline-flex h-5 items-center rounded-full px-2 text-sm font-medium leading-none",
               active
-                ? "bg-pink-50 ring-1 ring-inset ring-pink-200"
-                : "hover:bg-zinc-50",
+                ? "bg-pink-50 text-pink-700 ring-1 ring-inset ring-pink-200"
+                : "text-zinc-700 hover:bg-zinc-50",
               disabled ? "cursor-not-allowed opacity-70" : "",
             ].join(" ")}
           >
