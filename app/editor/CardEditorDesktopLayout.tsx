@@ -57,7 +57,11 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
   return (
     <div className="flex w-full h-[calc(100dvh-56px)]">
       {/* 左：縦ツール */}
-      <aside className="w-14 shrink-0 border-r bg-white/70 backdrop-blur h-full min-h-0">
+      <aside
+        className="w-14 shrink-0 
+         shadow-[2px_0_20px_-8px_rgba(0,0,0,0.25)]
+       bg-white/40 backdrop-blur h-full min-h-0"
+      >
         <Toolbar
           activeTab={state.activeTab}
           isPreview={state.isPreview}
@@ -70,15 +74,16 @@ export function CardEditorDesktopLayout(props: CardEditorDesktopProps) {
 
       {/* 左：詳細パネル */}
       {isPanelOpen && (
-        <aside className={clsx(
-          "shrink-0 border-r bg-white h-full min-h-0 transition-[width] duration-200",
-          //  768~1023px (タブレット) :ちょい細め
-          "md:w-[280px]",
-          // 1024~1279px:普通のPC幅
-          "lg:w-[320px]",
-          // 1280px~:余裕があるときだけ 416px まで広げる
-          "xl:w-[416px]"
-        )}
+        <aside
+          className={clsx(
+            "shrink-0 shadow-[6px_0_20px_-6px_rgba(0,0,0,0.15)] rounded-2xl bg-white h-full min-h-0 transition-[width] duration-200",
+            //  768~1023px (タブレット) :ちょい細め
+            "md:w-[280px]",
+            // 1024~1279px:普通のPC幅
+            "lg:w-[320px]",
+            // 1280px~:余裕があるときだけ 416px まで広げる
+            "xl:w-[416px]"
+          )}
         >
           <ToolPanel
             variant="desktop"

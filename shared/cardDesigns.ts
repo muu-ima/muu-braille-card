@@ -25,99 +25,89 @@ export type cardDesign = {
   };
 };
 
-/**
- * まずは plain だけ動かす（最小）
- * 表面は固定（空でもOK）
- * 裏面は今の blocks 初期値をここに寄せていく想定
- */
-export const CARD_FULL_DESIGNS: Record<DesignKey, cardDesign> = {
-  plain: {
+// 🌟 表面・裏面の共通テンプレート
+const BASE_FRONT_BLOCKS: Block[] = [
+  {
+    id: "brand",
+    type: "text",
+    text: "Cocco",
+    side: "front",
+    x: 40,
+    y: 40,
+    fontSize: 20,
+    fontWeight: "bold",
+    fontKey: "sans",
+  },
+  {
+    id: "url",
+    type: "text",
+    text: "cocco.example",
+    side: "front",
+    x: 40,
+    y: 80,
+    fontSize: 14,
+    fontWeight: "normal",
+    fontKey: "sans",
+  },
+];
+
+const BASE_BACK_BLOCKS: Block[] = [
+  {
+    id: "name",
+    type: "text",
+    text: "山田 太郎",
+    side: "front",
+    x: 100,
+    y: 120,
+    fontSize: 24,
+    fontWeight: "bold",
+    fontKey: "sans",
+  },
+  {
+    id: "title",
+    type: "text",
+    text: "デザイナー / Designer",
+    side: "front",
+    x: 100,
+    y: 80,
+    fontSize: 18,
+    fontWeight: "normal",
+    fontKey: "sans",
+  },
+];
+
+// 🌟 CARD_DESIGNS から背景をコピーして cardDesign を作るヘルパー
+function makeDesign(key: DesignKey): cardDesign {
+  const bg = CARD_DESIGNS[key];
+  return {
     bg: {
-      color: CARD_DESIGNS.plain.bgColor,
-      image: CARD_DESIGNS.plain.image,
-      mode: CARD_DESIGNS.plain.mode,
+      color: bg.bgColor,
+      image: bg.image,
+      mode: bg.mode,
     },
     front: {
       editable: false,
-      blocks: [
-        {
-          id: "brand",
-          type: "text",
-          text: "Cocco",
-          side: "front",   
-          x: 40,
-          y: 40,
-          fontSize: 20,
-          fontWeight: "bold",
-          fontKey: "sans",
-        },
-        {
-          id: "url",
-          type: "text",
-          text: "cocco.example",
-          side: "front",   
-          x: 40,
-          y: 80,
-          fontSize: 14,
-          fontWeight: "normal",
-          fontKey: "sans",
-        },
-      ],
+      blocks: BASE_FRONT_BLOCKS,
     },
     back: {
       editable: true,
-      blocks: [
-        {
-          id: "name",
-          type: "text",
-          text: "山田 太郎",
-          side: "front",   
-          x: 100,
-          y: 120,
-          fontSize: 24,
-          fontWeight: "bold",
-          fontKey: "sans",
-        },
-        {
-          id: "title",
-          type: "text",
-          text: "デザイナー / Designer",
-          side: "front",   
-          x: 100,
-          y: 80,
-          fontSize: 18,
-          fontWeight: "normal",
-          fontKey: "sans",
-        },
-      ],
+      blocks: BASE_BACK_BLOCKS,
     },
-  },
-  // いったん他のデザインも「背景だけ」同じ形で入れておく（裏面はplainと同じでOK）
-  girl: {
-    bg: {
-      color: CARD_DESIGNS.girl.bgColor,
-      image: CARD_DESIGNS.girl.image,
-      mode: CARD_DESIGNS.girl.mode,
-    },
-    front: { editable: false, blocks: [] },
-    back: { editable: true, blocks: [] },
-  },
-  kinmokusei: {
-    bg: {
-      color: CARD_DESIGNS.kinmokusei.bgColor,
-      image: CARD_DESIGNS.kinmokusei.image,
-      mode: CARD_DESIGNS.kinmokusei.mode,
-    },
-    front: { editable: false, blocks: [] },
-    back: { editable: true, blocks: [] },
-  },
-  usaCarrot: {
-    bg: {
-      color: CARD_DESIGNS.usaCarrot.bgColor,
-      image: CARD_DESIGNS.usaCarrot.image,
-      mode: CARD_DESIGNS.usaCarrot.mode,
-    },
-    front: { editable: false, blocks: [] },
-    back: { editable: true, blocks: [] },
-  },
+  };
+}
+
+/**
+ * ここを DesignKey に合わせて全部定義する
+ * （例：simpleBeige / simpleCream / ... / girl / kinmokusei / usaCarrot）
+ */
+export const CARD_FULL_DESIGNS: Record<DesignKey, cardDesign> = {
+  simpleBeige: makeDesign("simpleBeige"),
+  simpleCream: makeDesign("simpleCream"),
+  simpleWhite: makeDesign("simpleWhite"),
+  simplePink: makeDesign("simplePink"),
+  simpleBlue: makeDesign("simpleBlue"),
+  simpleGreen: makeDesign("simpleGreen"),
+  girl: makeDesign("girl"),
+  kinmokusei: makeDesign("kinmokusei"),
+  usaCarrot: makeDesign("usaCarrot"),
 };

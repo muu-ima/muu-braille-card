@@ -31,7 +31,7 @@ export default function EditorLayout({ children }: { children: ReactNode }) {
         flex flex-col`}
       style={{
         background:
-          "radial-gradient(circle at top, #eef5fb 0%, #f7f3f8 40%, #ffffff 75%)",
+          "linear-gradient(to bottom, #e6f2ff 0%, #f4e9ff 50%, #ffffff 100%)",
       }}
     >
       <header

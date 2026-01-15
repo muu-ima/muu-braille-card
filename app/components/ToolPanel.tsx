@@ -9,7 +9,7 @@ import type { FontKey } from "@/shared/fonts";
 import TextPanel from "@/app/components/panels/TextPanel";
 import BraillePanel from "@/app/components/panels/BraillePanel";
 import FontPanel from "@/app/components/panels/FontPanel";
-import DesignPanel from "@/app/components/panels/DedignPanel";
+import DesignPanel from "@/app/components/panels/DesignPanel";
 import ExportPanel from "@/app/components/panels/ExportPanel";
 import type { FontSizeDelta } from "@/shared/fonts";
 
